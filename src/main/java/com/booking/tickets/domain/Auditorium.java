@@ -2,12 +2,18 @@ package com.booking.tickets.domain;
 
 import javax.persistence.*;
 
+import java.util.List;
+
+import static java.util.Arrays.asList;
 import static javax.persistence.GenerationType.IDENTITY;
+import static org.apache.commons.lang3.StringUtils.join;
 
 @Entity
 @Table(name = "auditoriums")
 @NamedQuery(name = "Auditorium.getAll", query = "select a from Auditorium a")
 public class Auditorium {
+
+    public static final String SEATS_SEPARATOR = ",";
 
     @Id
     @Column(name = "id")
@@ -44,11 +50,15 @@ public class Auditorium {
         this.seatsQuantity = seatsQuantity;
     }
 
-    public String getVipSeats() {
-        return vipSeats;
+    public List<String> getVipSeats() {
+        return asList(vipSeats.split(SEATS_SEPARATOR));
     }
 
     public void setVipSeats(String vipSeats) {
         this.vipSeats = vipSeats;
+    }
+
+    public void setVipSeats(List<String> vipSeats) {
+        this.vipSeats = join(vipSeats, SEATS_SEPARATOR);
     }
 }

@@ -1,7 +1,7 @@
 package com.booking.tickets.domain;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -17,9 +17,9 @@ public class Event {
     @Column(name = "name")
     private String name;
     @Column(name = "price")
-    private double ticketPrice;
+    private double seatPrice;
     @Column(name = "date")
-    private Date date;
+    private LocalDateTime date;
     @ManyToOne
     @JoinColumn(name = "auditorium_id")
     private Auditorium auditorium;
@@ -40,19 +40,19 @@ public class Event {
         this.name = name;
     }
 
-    public double getTicketPrice() {
-        return ticketPrice;
+    public double getSeatPrice() {
+        return seatPrice;
     }
 
-    public void setTicketPrice(double ticketPrice) {
-        this.ticketPrice = ticketPrice;
+    public void setSeatPrice(double seatPrice) {
+        this.seatPrice = seatPrice;
     }
 
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

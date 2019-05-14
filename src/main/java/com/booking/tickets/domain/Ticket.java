@@ -2,7 +2,12 @@ package com.booking.tickets.domain;
 
 import javax.persistence.*;
 
+import java.util.List;
+
+import static com.booking.tickets.domain.Auditorium.SEATS_SEPARATOR;
+import static java.util.Arrays.asList;
 import static javax.persistence.GenerationType.IDENTITY;
+import static org.apache.commons.lang3.StringUtils.join;
 
 @Entity
 @Table(name = "tickets")
@@ -40,12 +45,16 @@ public class Ticket {
         this.event = event;
     }
 
-    public String getBookedSeats() {
-        return bookedSeats;
+    public List<String> getBookedSeats() {
+        return asList(bookedSeats.split(SEATS_SEPARATOR));
     }
 
     public void setBookedSeats(String bookedSeats) {
         this.bookedSeats = bookedSeats;
+    }
+
+    public void setBookedSeats(List<String> vipSeats) {
+        this.bookedSeats = join(vipSeats, SEATS_SEPARATOR);
     }
 
     public double getTotalPrice() {
