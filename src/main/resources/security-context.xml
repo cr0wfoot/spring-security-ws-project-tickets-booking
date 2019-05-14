@@ -18,16 +18,16 @@
         <intercept-url pattern="/user/name/*" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/user/id/*" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/user/email/*" access="hasRole('ROLE_ADMIN')" />
-        <intercept-url pattern="/user/**" access="hasRole('ROLE_REGISTERED_USER')" />
-        <intercept-url pattern="/auditorium/**" access="hasRole('ROLE_REGISTERED_USER')" />
-        <intercept-url pattern="/ticket/**" access="hasRole('ROLE_REGISTERED_USER')" />
-        <intercept-url pattern="/event/tickets/*" access="hasRole('ROLE_BOOKING_MANAGER')" />
-        <intercept-url pattern="/event/tickets" access="hasRole('ROLE_BOOKING_MANAGER')" />
-        <intercept-url pattern="/event/upload" access="hasRole('ROLE_BOOKING_MANAGER')" />
+        <intercept-url pattern="/user/**" access="hasRole('ROLE_USER')" />
+        <intercept-url pattern="/auditorium/**" access="hasRole('ROLE_USER')" />
+        <intercept-url pattern="/ticket/**" access="hasRole('ROLE_USER')" />
+        <intercept-url pattern="/event/tickets/*" access="hasRole('ROLE_MANAGER')" />
+        <intercept-url pattern="/event/tickets" access="hasRole('ROLE_MANAGER')" />
+        <intercept-url pattern="/event/upload" access="hasRole('ROLE_MANAGER')" />
         <intercept-url pattern="/event/create" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/event/remove" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/event/auditorium/assign" access="hasRole('ROLE_ADMIN')" />
-        <intercept-url pattern="/event/**" access="hasRole('ROLE_REGISTERED_USER')" />
+        <intercept-url pattern="/event/**" access="hasRole('ROLE_USER')" />
         <intercept-url pattern="/login" access="permitAll" />
         <intercept-url pattern="/logout" access="isAuthenticated()" />
         <intercept-url pattern="/**" access="denyAll" />

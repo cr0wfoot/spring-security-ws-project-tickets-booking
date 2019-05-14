@@ -2,11 +2,14 @@ package com.booking.tickets.domain;
 
 import javax.persistence.*;
 
+import static javax.persistence.EnumType.STRING;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "users")
-@NamedQuery(name = "User.getAll", query = "select u from User u")
+@NamedQueries({
+        @NamedQuery(name = "User.getAll", query = "select u from User u"),
+        @NamedQuery(name = "User.getByLogin", query = "select u from User u where u.login = :login")})
 public class User {
 
     @Id
@@ -21,6 +24,9 @@ public class User {
     private String fullName;
     @Column(name = "email")
     private String email;
+    @Enumerated(STRING)
+    @Column(name = "access")
+    private UserRole accessRole;
 
     public long getId() {
         return id;
@@ -60,5 +66,13 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public UserRole getAccessRole() {
+        return accessRole;
+    }
+
+    public void setAccessRole(UserRole accessRole) {
+        this.accessRole = accessRole;
     }
 }

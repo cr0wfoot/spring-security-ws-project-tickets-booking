@@ -32,7 +32,11 @@ public class JpaUserRepository implements UserRepository {
     @Override
     @Transactional(readOnly = true)
     public User read(final String login) {
-        return login != null && !login.isEmpty() ? em.find(User.class, login) : null;
+        if (login != null) {
+            return em.createNamedQuery("User.getByLogin", User.class).setParameter("login", login).getSingleResult();
+        } else {
+            return null;
+        }
     }
 
     @Override

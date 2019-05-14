@@ -1,10 +1,8 @@
 package com.booking.tickets.controller;
 
 import com.booking.tickets.domain.User;
-import com.booking.tickets.service.TicketService;
 import com.booking.tickets.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,19 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
-import java.time.LocalDate;
 
-import static org.springframework.format.annotation.DateTimeFormat.ISO.DATE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
-
-    private static final String USER_ROW_DELIMITER = ";";
-    private static final String USER_DETAILS_DELIMITER = ",";
-    private static final String USER_VALUES_DELIMITER = "=";
 
     @Autowired
     private UserService userService;
@@ -51,7 +43,7 @@ public class UserController {
     }
 
     @RequestMapping("/profile")
-    public String getUserById(Model model, Principal principal) {
+    public String getUserByLogin(Model model, Principal principal) {
         model.addAttribute("user", userService.getUserByLogin(principal.getName()));
         return "user";
     }

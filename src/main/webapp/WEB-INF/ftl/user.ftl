@@ -6,10 +6,9 @@
 <body>
   <h1>Your Account</h1>
   <ul>
-    <li>Name: ${user.name}</li>
+    <li>Login: ${user.login}</li>
+    <li>Name: ${user.fullName}</li>
     <li>Email: ${user.email}</li>
-    <li>Birthday: ${user.birthday}</li>
-    <li>Balance: ${user.userAccount.balance} (<a href="<@spring.url '/user/balance'/>">refill</a>)</li>
     <li><a href="<@spring.url '/user/tickets?userId=${user.id}'/>">booked tickets</a></li>
     <li><a href="<@spring.url '/user/tickets/pdf?userId=${user.id}'/>">tickets in PDF</a></li>
   </ul>
