@@ -9,7 +9,6 @@
   <table>
     <tr>
       <td>Name</td>
-      <td>Rate</td>
       <td>Price</td>
       <td>Date</td>
       <td>Auditorium</td>
@@ -18,9 +17,8 @@
   <#list events as event>
     <tr>
       <td>${event.name}</td>
-      <td>${event.rate}</td>
-      <td>${event.basePrice}</td>
-      <td>${event.dateTime}</td>
+      <td>${event.seatPrice}</td>
+      <td>${event.date}</td>
       <td><a href="#">${event.auditorium.name}</a></td>
       <td><a href="<@spring.url '/event/id/${event.id}'/>">details</a></td>
     </tr>

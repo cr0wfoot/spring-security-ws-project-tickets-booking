@@ -15,13 +15,13 @@ public class AuditoriumController {
     private AuditoriumService auditoriumService;
 
     @RequestMapping("/all")
-    public String getAuditoriums(Model model) {
+    public String redirectToPageWithAllAuditoriums(Model model) {
         model.addAttribute("auditoriums", auditoriumService.getAllAuditoriums());
         return "auditoriums";
     }
 
     @RequestMapping("/{id}")
-    public String getAuditoriumByName(Model model, @PathVariable long id) {
+    public String redirectToPageWithAuditoriumData(Model model, @PathVariable long id) {
         model.addAttribute("auditorium", auditoriumService.getAuditoirumById(id));
         return "auditorium";
     }

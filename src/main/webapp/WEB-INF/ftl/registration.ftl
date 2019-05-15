@@ -19,7 +19,7 @@
         <td><input type="edit" name="name" /></td>
       </tr>
       <tr>
-        <td>Birthday</td>
+        <td>Email</td>
         <td><input type="edit" name="email" /></td>
       </tr>
     </table>

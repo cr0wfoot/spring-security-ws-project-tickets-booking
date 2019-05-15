@@ -9,7 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.security.Principal;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -26,12 +28,12 @@ public class UserController {
     private PasswordEncoder passwordEncoder;
 
     @RequestMapping(value = "/registration", method = GET)
-    public String redirectToUserRegistrationPage() {
+    public String redirectToRegistrationPage() {
         return "registration";
     }
 
     @RequestMapping(value = "/register", method = POST)
-    public String registerNewUser(Model model, @RequestParam String email, @RequestParam String name,
+    public String registerNewUser(@RequestParam String email, @RequestParam String name,
                                   @RequestParam String login, @RequestParam String password) {
         final User newUser = new User();
         newUser.setLogin(login);
@@ -43,20 +45,55 @@ public class UserController {
     }
 
     @RequestMapping("/profile")
-    public String getUserByLogin(Model model, Principal principal) {
+    public String redirectToUserProfilePage(Model model, Principal principal) {
         model.addAttribute("user", userService.getUserByLogin(principal.getName()));
         return "user";
     }
 
+    @RequestMapping("/tickets")
+    public String redirectToPageWithTicketsBookedByUser(Model model, @RequestParam long userId) {
+        User user = userService.getById(userId);
+//        model.addAttribute("tickets", bookingService.getBookedTickets(user));
+        model.addAttribute("user", user);
+        return "tickets";
+    }
+
+    @RequestMapping(value = "/tickets/pdf", headers="Accept=application/pdf")
+    public String getPdfWithTicketsBookedByUser(Model model, @RequestParam long userId) {
+        User user = userService.getById(userId);
+//        model.addAttribute("tickets", bookingService.getBookedTickets(user));
+        return "ticketsPdfView";
+    }
+
     @RequestMapping("/id/{id}")
-    public String getUserById(Model model, @PathVariable long id) {
+    public String redirectToPageWithUserPersonalData(Model model, @PathVariable long id) {
         model.addAttribute("user", userService.getById(id));
         return "user";
     }
 
     @RequestMapping("/all")
-    public String getAllUsers(Model model) {
+    public String redirectToAdminPageWithAllUsers(Model model) {
         model.addAttribute("users", userService.getAllUsers());
         return "admin-users";
+    }
+
+    @RequestMapping(value = "/remove", method = POST)
+    public String removeUser(@RequestParam long id) {
+//        userService.remove(userService.getById(id));
+        return "redirect:/user/all";
+    }
+
+    @RequestMapping(value = "/upload", method = POST)
+    public String uploadUsers(Model model, @RequestParam("file") MultipartFile fileWithUsers) throws IOException {
+        if (!fileWithUsers.isEmpty()) {
+            byte[] users = fileWithUsers.getBytes();
+//            for (User user : convertStringToListOfUsers(new String(users))) {
+//                userService.register(user);
+//            }
+            return "redirect:/user/all";
+        } else {
+            model.addAttribute("errorMessage", "Error while uploading users.");
+            return "error";
+        }
     }
 }

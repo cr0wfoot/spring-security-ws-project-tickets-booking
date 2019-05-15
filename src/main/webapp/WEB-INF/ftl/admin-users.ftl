@@ -10,14 +10,14 @@
     <tr>
       <td>Name</td>
       <td>Email</td>
-      <td>Birthday</td>
+      <td>Login</td>
       <td></td>
     </tr>
   <#list users as user>
     <tr>
       <td>${user.name}</td>
       <td><a href="<@spring.url '/user/id/${user.id}'/>">${user.email}</a></td>
-      <td>${user.birthday}</td>
+      <td>${user.login}</td>
       <td>
         <form method="POST" enctype="multipart/form-data" action="./remove">
           <input type="hidden" name="id" value="${user.id}"/>
