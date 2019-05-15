@@ -1,6 +1,5 @@
 package com.booking.tickets.controller;
 
-import com.booking.tickets.domain.Auditorium;
 import com.booking.tickets.domain.Event;
 import com.booking.tickets.service.AuditoriumService;
 import com.booking.tickets.service.EventService;
@@ -17,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
-import static java.util.Collections.singletonList;
 import static org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
@@ -55,7 +53,7 @@ public class EventController {
     }
 
 
-    @RequestMapping(value = "/tickets/pdf", headers="Accept=application/pdf")
+    @RequestMapping(value = "/tickets/pdf", headers = "Accept=application/pdf")
     public String getPdfWithTicketsBookedForEvent(Model model, @RequestParam long eventId) {
 //        model.addAttribute("tickets", getTicketsForEvent(eventId));
         return "ticketsPdfView";
@@ -80,22 +78,13 @@ public class EventController {
         return "events";
     }
 
-    @RequestMapping(value = "/auditorium/assign", method = POST)
-    public String assignAuditoriumToEvent(Model model, @RequestParam Event event, @RequestParam Auditorium auditorium,
-                                          @RequestParam @DateTimeFormat(iso = DATE_TIME) LocalDateTime date) {
-//        event = eventService.assignAuditorium(event, auditorium, date);
-        model.addAttribute("events", singletonList(event));
-        return "events";
-
-    }
-
     @RequestMapping(value = "/upload", method = POST)
     public void uploadEvents(@RequestParam("file") MultipartFile fileWithEvents) throws IOException {
         if (!fileWithEvents.isEmpty()) {
             byte[] events = fileWithEvents.getBytes();
-//            for (Event event : convertStringToListOfEvents(new String(events))) {
-//                eventService.create(event);
-//            }
+            for (Event event : eventService.getListOfEventsFromString(new String(events))) {
+                eventService.registerEvent(event);
+            }
         }
     }
 }

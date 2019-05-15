@@ -7,9 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static com.booking.tickets.domain.UserRole.ROLE_USER;
+import static java.time.LocalDate.parse;
 
 @Service
 public class UserService {
@@ -18,6 +21,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private CsvConversionService csvConversionService;
 
     @Transactional
     public void registerUser(final User newUser) {
@@ -35,5 +41,19 @@ public class UserService {
 
     public List<User> getAllUsers() {
         return userRepository.readAll();
+    }
+
+    public List<User> getListOfUsersFromString(final String usersData) {
+        List<User> users = new ArrayList<>();
+        for (Map<String, String> values : csvConversionService.convertStringToListOfValues(usersData)) {
+            User user = new User();
+            user.setEmail(values.get("email"));
+            user.setFullName(values.get("name"));
+            user.setLogin(values.get("login"));
+            user.setPassword(values.get("password"));
+            user.setAccessRole(UserRole.valueOf(values.get("role")));
+            users.add(user);
+        }
+        return users;
     }
 }

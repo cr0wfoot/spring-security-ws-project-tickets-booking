@@ -87,9 +87,9 @@ public class UserController {
     public String uploadUsers(Model model, @RequestParam("file") MultipartFile fileWithUsers) throws IOException {
         if (!fileWithUsers.isEmpty()) {
             byte[] users = fileWithUsers.getBytes();
-//            for (User user : convertStringToListOfUsers(new String(users))) {
-//                userService.register(user);
-//            }
+            for (User user : userService.getListOfUsersFromString(new String(users))) {
+                userService.registerUser(user);
+            }
             return "redirect:/user/all";
         } else {
             model.addAttribute("errorMessage", "Error while uploading users.");

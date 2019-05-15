@@ -6,8 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import static java.lang.Double.parseDouble;
+import static java.lang.Long.parseLong;
+import static java.time.LocalDateTime.parse;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.IntStream.range;
 
@@ -23,9 +28,17 @@ public class EventService {
     @Autowired
     private TicketService ticketService;
 
+    @Autowired
+    private CsvConversionService csvConversionService;
+
     @Transactional
     public void registerEvent(final Event newEvent, final long auditoriumId) {
         newEvent.setAuditorium(auditoriumService.getAuditoirumById(auditoriumId));
+        registerEvent(newEvent);
+    }
+
+    @Transactional
+    public void registerEvent(final Event newEvent) {
         eventRepository.create(newEvent);
     }
 
@@ -47,5 +60,18 @@ public class EventService {
     private List<String> getAllSeatsForEvent(final Event event) {
         final List<Integer> seats = range(1, event.getAuditorium().getSeatsQuantity() + 1).boxed().collect(toList());
         return seats.stream().map(Object::toString).collect(toList());
+    }
+
+    public List<Event> getListOfEventsFromString(final String eventsData) {
+        List<Event> events = new ArrayList<>();
+        for (Map<String, String> values : csvConversionService.convertStringToListOfValues(eventsData)) {
+            Event event = new Event();
+            event.setName(values.get("name"));
+            event.setSeatPrice(parseDouble(values.get("price")));
+            event.setDate(parse(values.get("date")));
+            event.setAuditorium(auditoriumService.getAuditoirumById(parseLong(values.get("auditorium"))));
+            events.add(event);
+        }
+        return events;
     }
 }

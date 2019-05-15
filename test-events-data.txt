@@ -1,0 +1,3 @@
+name=Nutcracker,price=40,date=2018-12-02,auditorium=1;
+name=Hamlet,price=60,date=2018-12-02,auditorium=2;
+name=Cinderella,price=20,date=2018-12-02,auditorium=1;
