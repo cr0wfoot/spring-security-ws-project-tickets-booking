@@ -1,9 +1,7 @@
 package com.booking.tickets.controller;
 
 import com.booking.tickets.domain.Event;
-import com.booking.tickets.service.AuditoriumService;
 import com.booking.tickets.service.EventService;
-import com.booking.tickets.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -26,12 +24,6 @@ public class EventController {
     @Autowired
     private EventService eventService;
 
-    @Autowired
-    private AuditoriumService auditoriumService;
-
-    @Autowired
-    private TicketService ticketService;
-
     @RequestMapping("/all")
     public String redirectToPageWithAllEvents(Model model) {
         model.addAttribute("events", eventService.getAllEvents());
@@ -48,14 +40,14 @@ public class EventController {
 
     @RequestMapping("/tickets")
     public String redirectToPageWithTicketsBookedForEvent(Model model, @RequestParam long eventId) {
-//        model.addAttribute("tickets", getTicketsForEvent(eventId));
+        model.addAttribute("tickets", eventService.getEventById(eventId).getBookedTickets());
         return "tickets";
     }
 
 
     @RequestMapping(value = "/tickets/pdf", headers = "Accept=application/pdf")
     public String getPdfWithTicketsBookedForEvent(Model model, @RequestParam long eventId) {
-//        model.addAttribute("tickets", getTicketsForEvent(eventId));
+        model.addAttribute("tickets", eventService.getEventById(eventId).getBookedTickets());
         return "ticketsPdfView";
     }
 
@@ -73,7 +65,7 @@ public class EventController {
 
     @RequestMapping(value = "/remove", method = POST)
     public String removeEvent(Model model, @RequestParam Event event) {
-//        eventService.remove(event);
+        eventService.removeEvent(event);
         model.addAttribute("events", eventService.getAllEvents());
         return "events";
     }

@@ -42,6 +42,11 @@ public class EventService {
         eventRepository.create(newEvent);
     }
 
+    @Transactional
+    public void removeEvent(final Event event) {
+        eventRepository.delete(event.getId());
+    }
+
     public Event getEventById(final long eventId) {
         return eventRepository.read(eventId);
     }

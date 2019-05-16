@@ -2,6 +2,8 @@ package com.booking.tickets.domain;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -23,6 +25,8 @@ public class Event {
     @ManyToOne
     @JoinColumn(name = "auditorium_id")
     private Auditorium auditorium;
+    @OneToMany(mappedBy = "event")
+    private Set<Ticket> bookedTickets = new HashSet<>();
 
     public long getId() {
         return id;
@@ -62,5 +66,13 @@ public class Event {
 
     public void setAuditorium(Auditorium auditorium) {
         this.auditorium = auditorium;
+    }
+
+    public Set<Ticket> getBookedTickets() {
+        return bookedTickets;
+    }
+
+    public void setBookedTickets(Set<Ticket> bookedTickets) {
+        this.bookedTickets = bookedTickets;
     }
 }
