@@ -2,6 +2,9 @@ package com.booking.tickets.domain;
 
 import javax.persistence.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -27,6 +30,8 @@ public class User {
     @Enumerated(STRING)
     @Column(name = "access")
     private UserRole accessRole;
+    @OneToMany(mappedBy = "user")
+    private Set<Ticket> bookedTickets = new HashSet<>();
 
     public long getId() {
         return id;
@@ -74,5 +79,13 @@ public class User {
 
     public void setAccessRole(UserRole accessRole) {
         this.accessRole = accessRole;
+    }
+
+    public Set<Ticket> getBookedTickets() {
+        return bookedTickets;
+    }
+
+    public void setBookedTickets(Set<Ticket> bookedTickets) {
+        this.bookedTickets = bookedTickets;
     }
 }

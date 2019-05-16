@@ -24,9 +24,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
     @RequestMapping(value = "/registration", method = GET)
     public String redirectToRegistrationPage() {
         return "registration";
@@ -35,12 +32,11 @@ public class UserController {
     @RequestMapping(value = "/register", method = POST)
     public String registerNewUser(@RequestParam String email, @RequestParam String name,
                                   @RequestParam String login, @RequestParam String password) {
-        final User newUser = new User();
-        newUser.setLogin(login);
-        newUser.setPassword(passwordEncoder.encode(password));
-        newUser.setFullName(name);
-        newUser.setEmail(email);
-        userService.registerUser(newUser);
+        final User userData = new User();
+        userData.setLogin(login);
+        userData.setFullName(name);
+        userData.setEmail(email);
+        userService.registerUser(userData, password);
         return "redirect:/user/profile";
     }
 
@@ -53,7 +49,7 @@ public class UserController {
     @RequestMapping("/tickets")
     public String redirectToPageWithTicketsBookedByUser(Model model, @RequestParam long userId) {
         User user = userService.getById(userId);
-//        model.addAttribute("tickets", bookingService.getBookedTickets(user));
+        model.addAttribute("tickets", user.getBookedTickets());
         model.addAttribute("user", user);
         return "tickets";
     }
@@ -61,7 +57,7 @@ public class UserController {
     @RequestMapping(value = "/tickets/pdf", headers="Accept=application/pdf")
     public String getPdfWithTicketsBookedByUser(Model model, @RequestParam long userId) {
         User user = userService.getById(userId);
-//        model.addAttribute("tickets", bookingService.getBookedTickets(user));
+        model.addAttribute("tickets", user.getBookedTickets());
         return "ticketsPdfView";
     }
 
@@ -79,7 +75,7 @@ public class UserController {
 
     @RequestMapping(value = "/remove", method = POST)
     public String removeUser(@RequestParam long id) {
-//        userService.remove(userService.getById(id));
+        userService.removeUser(id);
         return "redirect:/user/all";
     }
 

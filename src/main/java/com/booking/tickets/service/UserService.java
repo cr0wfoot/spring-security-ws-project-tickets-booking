@@ -4,6 +4,7 @@ import com.booking.tickets.domain.User;
 import com.booking.tickets.domain.UserRole;
 import com.booking.tickets.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,10 +26,25 @@ public class UserService {
     @Autowired
     private CsvConversionService csvConversionService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Transactional
+    public void registerUser(final User newUser, final String password) {
+        newUser.setPassword(passwordEncoder.encode(password));
+        newUser.setAccessRole(DEFAULT_ACCESS_ROLE);
+        userRepository.create(newUser);
+    }
+
     @Transactional
     public void registerUser(final User newUser) {
         newUser.setAccessRole(DEFAULT_ACCESS_ROLE);
         userRepository.create(newUser);
+    }
+
+    @Transactional
+    public void removeUser(final long userId) {
+        userRepository.delete(userId);
     }
 
     public User getById(final long userId) {
