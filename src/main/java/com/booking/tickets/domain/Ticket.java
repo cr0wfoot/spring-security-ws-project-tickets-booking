@@ -45,8 +45,12 @@ public class Ticket {
         this.event = event;
     }
 
-    public List<String> getBookedSeats() {
+    public List<String> getListOfBookedSeats() {
         return asList(bookedSeats.split(SEATS_SEPARATOR));
+    }
+
+    public String getBookedSeats() {
+        return bookedSeats;
     }
 
     public void setBookedSeats(String bookedSeats) {

@@ -29,15 +29,11 @@ public class TicketService {
     }
 
     private double calculateTotalPrice(final Event event, final List<String> seatsToBook) {
-        final List<String> vipSeats = event.getAuditorium().getVipSeats();
+        final List<String> vipSeats = event.getAuditorium().getListOfVipSeats();
         double totalPrice = 0;
         for (String seat : seatsToBook) {
             totalPrice += vipSeats.contains(seat) ? event.getSeatPrice() * VIP_SEAT_PRICE_FACTOR : event.getSeatPrice();
         }
         return totalPrice;
-    }
-
-    public List<Ticket> getTicktesBookedForEvent(final Event event) {
-        throw new UnsupportedOperationException();
     }
 }

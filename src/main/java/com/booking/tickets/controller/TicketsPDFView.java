@@ -9,8 +9,8 @@ import org.springframework.web.servlet.view.document.AbstractPdfView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 @Component("ticketsPdfView")
@@ -22,11 +22,11 @@ public class TicketsPDFView extends AbstractPdfView {
     @Override
     protected void buildPdfDocument(Map<String, Object> map, Document document, PdfWriter pdfWriter,
                                     HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
-        List<Ticket> tickets = (List<Ticket>) map.get("tickets");
+        Set<Ticket> tickets = (Set<Ticket>) map.get("tickets");
         document.add(new Paragraph(HEADER));
         for (Ticket t : tickets) {
             document.add(new Paragraph(t.getEvent().getName() + VALUES_DELIMITER + t.getEvent().getDate() + VALUES_DELIMITER +
-                    t.getBookedSeats() + VALUES_DELIMITER + t.getTotalPrice() + VALUES_DELIMITER + t.getEvent().getAuditorium().getName()));
+                    t.getListOfBookedSeats() + VALUES_DELIMITER + t.getTotalPrice() + VALUES_DELIMITER + t.getEvent().getAuditorium().getName()));
         }
     }
 }

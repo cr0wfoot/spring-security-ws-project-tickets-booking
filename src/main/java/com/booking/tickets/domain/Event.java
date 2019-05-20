@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -25,7 +26,7 @@ public class Event {
     @ManyToOne
     @JoinColumn(name = "auditorium_id")
     private Auditorium auditorium;
-    @OneToMany(mappedBy = "event")
+    @OneToMany(mappedBy = "event", fetch = EAGER)
     private Set<Ticket> bookedTickets = new HashSet<>();
 
     public long getId() {

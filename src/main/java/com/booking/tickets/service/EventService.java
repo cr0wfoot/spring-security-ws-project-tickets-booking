@@ -12,7 +12,7 @@ import java.util.Map;
 
 import static java.lang.Double.parseDouble;
 import static java.lang.Long.parseLong;
-import static java.time.LocalDateTime.parse;
+import static java.time.LocalDate.parse;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.IntStream.range;
 
@@ -56,7 +56,7 @@ public class EventService {
     }
 
     public List<String> getFreeSeatsForEvent(final Event event) {
-        final List<String> bookedSeats = ticketService.getTicktesBookedForEvent(event).stream().flatMap(t -> t.getBookedSeats().stream()).collect(toList());
+        final List<String> bookedSeats = event.getBookedTickets().stream().flatMap(t -> t.getListOfBookedSeats().stream()).collect(toList());
         final List<String> freeSeats = getAllSeatsForEvent(event);
         freeSeats.removeAll(bookedSeats);
         return freeSeats;
@@ -73,7 +73,7 @@ public class EventService {
             Event event = new Event();
             event.setName(values.get("name"));
             event.setSeatPrice(parseDouble(values.get("price")));
-            event.setDate(parse(values.get("date")));
+            event.setDate(parse(values.get("date")).atStartOfDay());
             event.setAuditorium(auditoriumService.getAuditoirumById(parseLong(values.get("auditorium"))));
             events.add(event);
         }

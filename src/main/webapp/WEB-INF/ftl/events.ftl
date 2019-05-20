@@ -24,5 +24,11 @@
     </tr>
   </#list>
   </table>
+  <form method="POST" enctype="multipart/form-data" action="./upload">
+  	<table>
+  	  <tr><td>File with users to upload:</td><td><input type="file" name="file" /></td></tr>
+  	  <tr><td></td><td><input type="submit" value="upload" /></td></tr>
+  	</table>
+  </form>
 </body>
 </html>

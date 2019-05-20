@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static javax.persistence.EnumType.STRING;
+import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -30,7 +31,7 @@ public class User {
     @Enumerated(STRING)
     @Column(name = "access")
     private UserRole accessRole;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = EAGER)
     private Set<Ticket> bookedTickets = new HashSet<>();
 
     public long getId() {

@@ -4,6 +4,7 @@
   <title>Users</title>
 </head>
 <body>
+  <#include "header.ftl">
   <h1>Users</h1>
   <#if users?has_content>
   <table>
@@ -15,7 +16,7 @@
     </tr>
   <#list users as user>
     <tr>
-      <td>${user.name}</td>
+      <td>${user.fullName}</td>
       <td><a href="<@spring.url '/user/id/${user.id}'/>">${user.email}</a></td>
       <td>${user.login}</td>
       <td>

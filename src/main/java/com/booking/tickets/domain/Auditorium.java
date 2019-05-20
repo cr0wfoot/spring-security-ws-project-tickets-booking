@@ -50,8 +50,12 @@ public class Auditorium {
         this.seatsQuantity = seatsQuantity;
     }
 
-    public List<String> getVipSeats() {
+    public List<String> getListOfVipSeats() {
         return asList(vipSeats.split(SEATS_SEPARATOR));
+    }
+
+    public String getVipSeats() {
+        return vipSeats;
     }
 
     public void setVipSeats(String vipSeats) {

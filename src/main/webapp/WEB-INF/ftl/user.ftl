@@ -4,6 +4,7 @@
   <title>Account</title>
 </head>
 <body>
+  <#include "header.ftl">
   <h1>Your Account</h1>
   <ul>
     <li>Login: ${user.login}</li>

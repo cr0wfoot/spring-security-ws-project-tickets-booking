@@ -71,12 +71,13 @@ public class EventController {
     }
 
     @RequestMapping(value = "/upload", method = POST)
-    public void uploadEvents(@RequestParam("file") MultipartFile fileWithEvents) throws IOException {
+    public String uploadEvents(@RequestParam("file") MultipartFile fileWithEvents) throws IOException {
         if (!fileWithEvents.isEmpty()) {
             byte[] events = fileWithEvents.getBytes();
             for (Event event : eventService.getListOfEventsFromString(new String(events))) {
                 eventService.registerEvent(event);
             }
         }
+        return "redirect:/event/all";
     }
 }
