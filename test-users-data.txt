@@ -1,2 +1,2 @@
-email=password1,name=password1,login=password1-admin,password=$10$z9hhKYqzm5s9lNKdapp9MuvtS38jzzQLkNT/QeuWNcE1j3unlayzK,role=ROLE_USER;
-email=password2,name=password2,login=password2-admin,password=$10$z9hhKYqzm5s9lNKdapp9MuvtS38jzzQLkNT/QeuWNcE1j3unlayzK,role=ROLE_ADMIN;
+email=test,name=password11,login=password11-admin,password=$10$z9hhKYqzm5s9lNKdapp9MuvtS38jzzQLkNT/QeuWNcE1j3unlayzK,role=ROLE_USER;
+email=test,name=password22,login=password22-admin,password=$10$z9hhKYqzm5s9lNKdapp9MuvtS38jzzQLkNT/QeuWNcE1j3unlayzK,role=ROLE_ADMIN;

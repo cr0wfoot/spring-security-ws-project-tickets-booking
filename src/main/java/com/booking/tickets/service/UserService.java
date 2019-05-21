@@ -4,6 +4,10 @@ import com.booking.tickets.domain.User;
 import com.booking.tickets.domain.UserRole;
 import com.booking.tickets.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PostFilter;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.prepost.PreFilter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,17 +40,22 @@ public class UserService {
         userRepository.create(newUser);
     }
 
+    @PreFilter("filterObject.email == 'test'")
     @Transactional
-    public void registerUser(final User newUser) {
-        newUser.setAccessRole(DEFAULT_ACCESS_ROLE);
-        userRepository.create(newUser);
+    public void registerUsers(final List<User> newUsers) {
+        for (User user : newUsers) {
+            user.setAccessRole(DEFAULT_ACCESS_ROLE);
+            userRepository.create(user);
+        }
     }
 
     @Transactional
+    @Secured("ROLE_ADMIN")
     public void removeUser(final long userId) {
         userRepository.delete(userId);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public User getById(final long userId) {
         return userRepository.read(userId);
     }
@@ -55,6 +64,7 @@ public class UserService {
         return userRepository.read(userLogin);
     }
 
+    @PostFilter("hasRole('ADMIN') or filterObject.login == authentication.name")
     public List<User> getAllUsers() {
         return userRepository.readAll();
     }

@@ -12,12 +12,12 @@
         <intercept-url pattern="/" access="permitAll"/>
         <intercept-url pattern="/user/registration" access="permitAll" />
         <intercept-url pattern="/user/register" access="permitAll" />
-        <intercept-url pattern="/user/remove" access="hasRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/user/remove" access="hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')" />
         <intercept-url pattern="/user/upload" access="hasRole('ROLE_ADMIN')" />
-        <intercept-url pattern="/user/all" access="hasRole('ROLE_ADMIN')" />
-        <intercept-url pattern="/user/id/*" access="hasRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/user/all" access="isAuthenticated()" />
+        <intercept-url pattern="/user/id/*" access="hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')" />
         <intercept-url pattern="/user/**" access="hasRole('ROLE_USER')" />
-        <intercept-url pattern="/auditorium/**" access="hasRole('ROLE_USER')" />
+        <intercept-url pattern="/auditorium/**" access="permitAll" />
         <intercept-url pattern="/ticket/**" access="hasRole('ROLE_USER')" />
         <intercept-url pattern="/event/all" access="permitAll" />
         <intercept-url pattern="/event/tickets/*" access="hasRole('ROLE_MANAGER')" />
@@ -39,6 +39,16 @@
 
         <remember-me data-source-ref="dataSource"/>
     </http>
+
+    <global-method-security secured-annotations="enabled" pre-post-annotations="enabled">
+        <expression-handler ref="expressionHandler"/>
+    </global-method-security>
+    
+    <beans:bean id="expressionHandler" class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
+        <beans:property name="permissionEvaluator" ref="permissionEvaluator"/>
+    </beans:bean>
+
+    <beans:bean id="permissionEvaluator" class="com.booking.tickets.security.CustomPermissionEvaluator"/>
 
     <authentication-manager>
         <authentication-provider user-service-ref="userDetailsService" >

@@ -22,7 +22,7 @@ public class AuditoriumController {
 
     @RequestMapping("/{id}")
     public String redirectToPageWithAuditoriumData(Model model, @PathVariable long id) {
-        model.addAttribute("auditorium", auditoriumService.getAuditoirumById(id));
+        model.addAttribute("auditorium", auditoriumService.getAuditoriumById(id));
         return "auditorium";
     }
 }

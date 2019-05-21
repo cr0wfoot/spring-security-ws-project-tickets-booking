@@ -33,7 +33,7 @@ public class EventService {
 
     @Transactional
     public void registerEvent(final Event newEvent, final long auditoriumId) {
-        newEvent.setAuditorium(auditoriumService.getAuditoirumById(auditoriumId));
+        newEvent.setAuditorium(auditoriumService.getAuditoriumById(auditoriumId));
         registerEvent(newEvent);
     }
 
@@ -55,6 +55,7 @@ public class EventService {
         return eventRepository.readAll();
     }
 
+
     public List<String> getFreeSeatsForEvent(final Event event) {
         final List<String> bookedSeats = event.getBookedTickets().stream().flatMap(t -> t.getListOfBookedSeats().stream()).collect(toList());
         final List<String> freeSeats = getAllSeatsForEvent(event);
@@ -74,7 +75,7 @@ public class EventService {
             event.setName(values.get("name"));
             event.setSeatPrice(parseDouble(values.get("price")));
             event.setDate(parse(values.get("date")).atStartOfDay());
-            event.setAuditorium(auditoriumService.getAuditoirumById(parseLong(values.get("auditorium"))));
+            event.setAuditorium(auditoriumService.getAuditoriumById(parseLong(values.get("auditorium"))));
             events.add(event);
         }
         return events;
