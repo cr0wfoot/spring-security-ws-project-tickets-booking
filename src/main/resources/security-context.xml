@@ -34,7 +34,8 @@
                     username-parameter="email"
                     password-parameter="password"
                     authentication-failure-url="/login?error=true"
-                    default-target-url="/"/>
+                    default-target-url="/"
+                    authentication-success-handler-ref="authenticationHandler"/>
         <security:logout logout-url="/logout" logout-success-url="/login?logout" />
 
         <remember-me data-source-ref="dataSource"/>
@@ -49,6 +50,8 @@
     </beans:bean>
 
     <beans:bean id="permissionEvaluator" class="com.booking.tickets.security.CustomPermissionEvaluator"/>
+
+    <beans:bean id="authenticationHandler" class="com.booking.tickets.security.CustomAuthenticationSuccessHandler"/>
 
     <authentication-manager>
         <authentication-provider user-service-ref="userDetailsService" >
