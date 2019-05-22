@@ -8,7 +8,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.access.prepost.PreFilter;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Map;
 
 import static com.booking.tickets.domain.UserRole.ROLE_USER;
-import static java.time.LocalDate.parse;
 
 @Service
 public class UserService {
@@ -30,12 +29,12 @@ public class UserService {
     @Autowired
     private CsvConversionService csvConversionService;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    @Autowired //But BCrypt need to be used
+    private Md5PasswordEncoder passwordEncoder;
 
     @Transactional
     public void registerUser(final User newUser, final String password) {
-        newUser.setPassword(passwordEncoder.encode(password));
+        newUser.setPassword(passwordEncoder.encodePassword(password, newUser.getLogin()));
         newUser.setAccessRole(DEFAULT_ACCESS_ROLE);
         userRepository.create(newUser);
     }
