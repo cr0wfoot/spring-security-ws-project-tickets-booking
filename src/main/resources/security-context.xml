@@ -44,6 +44,8 @@
         <security:logout logout-url="/logout" logout-success-url="/login?logout" />
 
         <remember-me data-source-ref="dataSource"/>
+        
+        <custom-filter position="LAST" ref="customFilter"/>
 
         <session-management session-fixation-protection="migrateSession">
             <concurrency-control max-sessions="1" error-if-maximum-exceeded="true"/>
@@ -71,6 +73,8 @@
             </beans:list>
         </beans:constructor-arg>
     </beans:bean>
+
+    <beans:bean id="customFilter" class="com.booking.tickets.security.CustomSecurityFilter"/>
 
     <authentication-manager>
         <authentication-provider user-service-ref="userDetailsService" >
